@@ -5,4 +5,7 @@ export const DOMSelectors = {
 	scaleSelect() {
 		return document.querySelector<HTMLSelectElement>('#scale-select')!;
 	},
+	octaveSelect() {
+		return document.querySelector<HTMLSelectElement>('#octave-select')!;
+	},
 };

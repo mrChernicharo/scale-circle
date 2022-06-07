@@ -1,4 +1,10 @@
-import { Interval } from './interfaces';
+import { Interval, NoteFreq, NoteName } from './interfaces';
+import { noteFreqs, notesByI } from './noteFreqs';
+
+const getNote = (key: string, octave: number) => {
+	const noteFreq: NoteFreq = noteFreqs[`${key}${octave}`];
+	return noteFreq;
+};
 
 export const translateIntervalsIntoSemitones = (intervalArr: Interval[]) => {
 	const semitoneTable = {
@@ -30,9 +36,41 @@ export const translateIntervalsIntoSemitones = (intervalArr: Interval[]) => {
 	return intervalArr.map(int => parseSemitone(int));
 };
 
+export const getIsBemolKey = (key: NoteName) =>
+	['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb'].includes(key);
+
 export const translateSemitonesAndKeyIntoNotes = (
 	key: string,
-	semitones: number[]
+	semitones: number[],
+	octave: number
 ) => {
-	console.log(key, semitones);
+	const isBemolKey = getIsBemolKey(key as NoteName);
+	let currentI = parseInt(getNote(key, octave).i);
+	const initialNote = isBemolKey
+		? notesByI[currentI + 'b']
+		: notesByI[currentI];
+
+	console.log('translateSemitonesAndKeyIntoNotes', {
+		isBemolKey,
+		currentI,
+		initialNote,
+		key,
+		semitones,
+		notesByI,
+	});
+
+	return [
+		initialNote,
+		...semitones.map(st => {
+			let nextNote;
+			if (isBemolKey) {
+				currentI += st;
+				nextNote = notesByI[currentI + 'b'] || notesByI[currentI];
+			} else {
+				currentI += st;
+				nextNote = notesByI[currentI];
+			}
+			return nextNote;
+		}),
+	];
 };

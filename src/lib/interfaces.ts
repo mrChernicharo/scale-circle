@@ -1,3 +1,10 @@
+export interface AppState {
+	key: string;
+	scale: string;
+	octave: number;
+	notes: NoteFreq[];
+}
+
 // prettier-ignore
 export type Interval = "b2" | "2" | "#2" 
 | "m3" | "3" | "4" | "#4" | "b5" | "5" 
@@ -22,7 +29,7 @@ export type NoteFreq = {
 	name: NoteName;
 	fullname: NoteFullname;
 	freq: number;
-	i: number;
+	i: any;
 };
 
 export type Scale = Interval[];
