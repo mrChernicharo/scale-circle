@@ -2,7 +2,7 @@ export interface AppState {
 	key: string;
 	scale: string;
 	octave: number;
-	notes: string[];
+	notes: Note[];
 	scaleNotes: Note[];
 }
 

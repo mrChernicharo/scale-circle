@@ -21,24 +21,16 @@ export const setAppState = (props: Partial<AppState>) => {
 	const tempState = { ...appState, ...props };
 	const { key, scale: scaleName, octave } = tempState;
 
-	tempState.notes = KEY_NOTES[key];
+	tempState.notes = getScaleIntoNotes(key, 'chromatic', octave);
 
-	const semitones = getSemitones(scaleName);
-
-	const scaleNotes = semitonesIntoNotes(
-		key,
-		octave,
-		semitones,
-		tempState.notes
-	);
-
-	tempState.scaleNotes = scaleNotes;
+	tempState.scaleNotes = getScaleIntoNotes(key, scaleName, octave);
 
 	appState = tempState;
 	console.log('setAppState', appState);
 
-	updateAllNotesList();
 	updateScaleNotesList();
+	updateCircleNote();
+	updateCircleScaleNote();
 };
 
 // DOM actions
@@ -105,16 +97,15 @@ export const updateScaleNotesList = () => {
 	});
 };
 
-export const updateAllNotesList = () => {
-	const ul = document.querySelector<HTMLUListElement>('#all-notes-list')!;
-
-	ul.innerHTML = '';
-	appState.notes.forEach(note => {
-		const li = document.createElement('li');
-		li.textContent = note;
-		ul.append(li);
+export const updateCircleNote = () => {
+	appState.notes.forEach((note, i) => {
+		if (i === 12) return; // there ain't no 13th note
+		const el = document.querySelector(`.note.n-${i + 1}`)!;
+		el.textContent = note.name;
 	});
 };
+
+export const updateCircleScaleNote = () => {};
 
 // plucking notes
 const getSemitones = (scaleName: string) => {
@@ -156,4 +147,21 @@ export const semitonesIntoNotes = (
 	});
 
 	return [root, ...otherNotes];
+};
+
+export const getScaleIntoNotes = (
+	key: string,
+	scaleName: string,
+	octave: number
+) => {
+	const semitones = getSemitones(scaleName);
+
+	const scaleNotes = semitonesIntoNotes(
+		key,
+		octave,
+		semitones,
+		KEY_NOTES[key]
+	);
+
+	return scaleNotes;
 };
