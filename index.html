@@ -4,13 +4,31 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite App</title>
+		<title>Scale Circle</title>
 	</head>
 	<body>
-		<!-- <div class="key-select"></div> -->
-		<select id="key-select"></select>
-		<select id="scale-select"></select>
-		<select id="octave-select"></select>
+		<h1>Scale Circle</h1>
+		<div>
+			<label for="key-select">Key</label>
+			<select id="key-select"></select>
+		</div>
+		<div>
+			<label for="scale-select">Scale</label>
+			<select id="scale-select"></select>
+		</div>
+		<div>
+			<label for="octave-select">Octave</label>
+			<select id="octave-select"></select>
+		</div>
+
+		<div>
+			<h1>scale notes list</h1>
+			<ul id="scale-notes-list"></ul>
+		</div>
+		<div>
+			<h1>all notes list</h1>
+			<ul id="all-notes-list"></ul>
+		</div>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>
